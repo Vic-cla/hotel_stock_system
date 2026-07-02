@@ -12,10 +12,14 @@ app.secret_key = "victor_hotel_secret_2026"
 # ===========================
 # DATABASE CONFIGURATION
 # ===========================
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "hotel_stock_system"
+import os
+
+app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST", "localhost")
+app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT", 3306))
+app.config["MYSQL_USER"] = os.getenv("MYSQL_USER", "root")
+app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD", "")
+app.config["MYSQL_DB"] = os.getenv("MYSQL_DB", "hotel_stock_system")
+
 
 mysql = MySQL(app)
 
