@@ -1,0 +1,93 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Daily Sales Report
+{% endblock %}
+
+{% block page_title %}
+📊 Daily Sales Report
+{% endblock %}
+
+{% block content %}
+
+<h2>Grand African Plate Hotel</h2>
+
+<h3>Daily Sales Report</h3>
+
+<p><strong>Date:</strong> {{ selected_date }}</p>
+
+<hr>
+<form method="GET" action="/daily_sales_report">
+
+    <label><strong>Select Date:</strong></label>
+
+    <input
+        type="date"
+        name="date"
+        value="{{ selected_date }}"
+    >
+
+    <button type="submit">
+        View Report
+    </button>
+
+</form>
+
+<br>
+
+<p><strong>Report Date:</strong> {{ selected_date }}</p>
+
+<hr>
+
+<table border="1" cellpadding="10" cellspacing="0" width="100%">
+
+    <tr>
+        <th>Product</th>
+        <th>Quantity Sold</th>
+        <th>Unit Price (KSh)</th>
+        <th>Total Sales (KSh)</th>
+    </tr>
+
+    {% for item in report %}
+
+    <tr>
+
+        <td>{{ item.product_name }}</td>
+
+        <td>{{ item.quantity_sold }}</td>
+
+        <td>{{ item.unit_price }}</td>
+
+        <td>{{ item.total_sales }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<br>
+
+<div style="border:1px solid #ccc; padding:15px; width:350px;">
+
+    <h3>Summary</h3>
+
+    <p>
+        <strong>Total Transactions:</strong>
+        {{ total_transactions }}
+    </p>
+
+    <p>
+        <strong>Grand Total:</strong>
+        KSh {{ grand_total }}
+    </p>
+
+</div>
+
+<br>
+
+<button onclick="window.print()">
+    🖨 Print Report
+</button>
+
+{% endblock %}

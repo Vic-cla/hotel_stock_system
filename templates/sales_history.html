@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales History</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f4f6f9;
+            margin:0;
+            padding:30px;
+        }
+
+        h1{
+            text-align:center;
+            color:#2c3e50;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            margin-top:25px;
+            box-shadow:0 0 10px rgba(0,0,0,.1);
+        }
+
+        th{
+            background:#2c3e50;
+            color:white;
+            padding:12px;
+        }
+
+        td{
+            padding:10px;
+            border-bottom:1px solid #ddd;
+            text-align:center;
+        }
+
+        tr:hover{
+            background:#f1f1f1;
+        }
+
+        .back{
+            display:inline-block;
+            margin-top:20px;
+            text-decoration:none;
+            background:#3498db;
+            color:white;
+            padding:10px 18px;
+            border-radius:6px;
+        }
+
+        .back:hover{
+            background:#2980b9;
+        }
+
+        .total{
+            font-weight:bold;
+            color:green;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h1>📋 Sales History</h1>
+
+<table>
+
+<tr>
+    <th>ID</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Product</th>
+    <th>Qty</th>
+    <th>Unit Price</th>
+    <th>Total</th>
+    <th>Payment</th>
+    <th>Bartender</th>
+</tr>
+
+{% for sale in sales %}
+
+<tr>
+
+    <td>{{ sale.id }}</td>
+    <td>{{ sale.sales_date }}</td>
+    <td>{{ sale.sales_time }}</td>
+    <td>{{ sale.product_name }}</td>
+    <td>{{ sale.quantity }}</td>
+    <td>KSh {{ sale.unit_price }}</td>
+    <td class="total">KSh {{ sale.total }}</td>
+    <td>{{ sale.payment_method }}</td>
+    <td>{{ sale.bartender }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<a href="/" class="back">⬅ Back to Dashboard</a>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Date Range Sales Report
+{% endblock %}
+
+{% block page_title %}
+📊 Date Range Sales Report
+{% endblock %}
+
+{% block content %}
+
+<h2>Grand African Plate Hotel</h2>
+
+<h3>Sales Report by Date Range</h3>
+
+<form method="GET" action="/date_range_report">
+
+    <label><strong>Start Date:</strong></label>
+
+    <input
+        type="date"
+        name="start_date"
+        value="{{ start_date }}"
+        required
+    >
+
+    &nbsp;&nbsp;
+
+    <label><strong>End Date:</strong></label>
+
+    <input
+        type="date"
+        name="end_date"
+        value="{{ end_date }}"
+        required
+    >
+
+    &nbsp;&nbsp;
+
+    <button type="submit">
+        🔍 Generate Report
+    </button>
+
+</form>
+
+<br>
+
+{% if report %}
+
+<table border="1" cellpadding="10" cellspacing="0" width="100%">
+
+    <tr>
+        <th>Product</th>
+        <th>Quantity Sold</th>
+        <th>Unit Price (KSh)</th>
+        <th>Total Sales (KSh)</th>
+    </tr>
+
+    {% for item in report %}
+
+    <tr>
+
+        <td>{{ item.product_name }}</td>
+
+        <td>{{ item.quantity_sold }}</td>
+
+        <td>{{ item.unit_price }}</td>
+
+        <td>{{ item.total_sales }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<br>
+
+<div style="border:1px solid #ccc; padding:15px; width:350px;">
+
+    <h3>Report Summary</h3>
+
+    <p>
+        <strong>Total Transactions:</strong>
+        {{ total_transactions }}
+    </p>
+
+    <p>
+        <strong>Grand Total Sales:</strong>
+        KSh {{ grand_total }}
+    </p>
+
+</div>
+
+{% else %}
+
+<p><strong>No sales found for the selected date range.</strong></p>
+
+{% endif %}
+
+<br>
+
+<button onclick="window.print()">
+    🖨 Print Report
+</button>
+
+{% endblock %}

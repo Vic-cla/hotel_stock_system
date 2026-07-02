@@ -1,0 +1,241 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    display:flex;
+    background:#eef2f7;
+    color:#2c3e50;
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:linear-gradient(180deg,#0f172a,#1e3a8a);
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:25px;
+    overflow-y:auto;
+    box-shadow:5px 0 20px rgba(0,0,0,.15);
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:35px;
+    font-size:24px;
+    letter-spacing:1px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:14px 18px;
+    margin-bottom:12px;
+    border-radius:12px;
+    transition:.3s;
+    font-weight:500;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,.15);
+    transform:translateX(8px);
+}
+
+/* ===========================
+   MAIN CONTENT
+=========================== */
+
+.main-content{
+    margin-left:260px;
+    width:100%;
+    min-height:100vh;
+    padding:30px;
+}
+
+/* ===========================
+   TOP BAR
+=========================== */
+
+.topbar{
+    background:white;
+    padding:22px 30px;
+    border-radius:16px;
+    margin-bottom:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.topbar h1{
+    color:#1e3a8a;
+}
+
+/* ===========================
+   DASHBOARD CARDS
+=========================== */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    padding:28px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+    border-left:6px solid #2563eb;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 35px rgba(0,0,0,.15);
+}
+
+.card h3{
+    color:#64748b;
+    margin-bottom:15px;
+    font-size:18px;
+}
+
+.card h1{
+    font-size:38px;
+    color:#1e293b;
+}
+
+/* ===========================
+   TABLES
+=========================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+th{
+    background:#1e3a8a;
+    color:white;
+    padding:16px;
+    text-align:left;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+tr:nth-child(even){
+    background:#f8fafc;
+}
+
+tr:hover{
+    background:#e0f2fe;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:15px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    margin-top:6px;
+    margin-bottom:18px;
+    font-size:15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 8px rgba(37,99,235,.25);
+}
+
+/* ===========================
+   LINKS
+=========================== */
+
+a{
+    color:#2563eb;
+}
+
+a:hover{
+    color:#1d4ed8;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:210px;
+    }
+
+    .main-content{
+        margin-left:210px;
+    }
+}
+
+@media(max-width:768px){
+
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main-content{
+        margin-left:0;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+}

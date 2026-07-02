@@ -1,0 +1,88 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Edit Product
+{% endblock %}
+
+{% block page_title %}
+✏ Edit Product
+{% endblock %}
+
+{% block content %}
+
+<h2>Edit Product</h2>
+
+<form method="POST">
+
+    <label>Product Name</label><br>
+    <input type="text" name="product_name"
+           value="{{ product.product_name }}" required>
+
+    <br><br>
+
+    <label>Category</label><br>
+    <input type="text" name="category"
+           value="{{ product.category }}" required>
+
+    <br><br>
+
+    <label>Buying Price</label><br>
+    <input type="number" step="0.01"
+           name="buying_price"
+           value="{{ product.buying_price }}" required>
+
+    <br><br>
+
+    <label>Selling Price</label><br>
+    <input type="number" step="0.01"
+           name="selling_price"
+           value="{{ product.selling_price }}" required>
+
+    <br><br>
+
+    <label>Stock</label><br>
+    <input type="number"
+           name="stock"
+           value="{{ product.stock }}" required>
+
+    <br><br>
+
+    <label>Supplier</label><br>
+    <input type="text"
+           name="supplier"
+           value="{{ product.supplier }}" required>
+
+    <br><br>
+
+    <label>Reorder Level</label><br>
+    <input type="number"
+           name="reorder_level"
+           value="{{ product.reorder_level }}" required>
+
+    <br><br>
+
+    <label>Status</label><br>
+
+    <select name="status">
+
+        <option value="Active"
+            {% if product.status == "Active" %}selected{% endif %}>
+            Active
+        </option>
+
+        <option value="Inactive"
+            {% if product.status == "Inactive" %}selected{% endif %}>
+            Inactive
+        </option>
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        💾 Save Changes
+    </button>
+
+</form>
+
+{% endblock %}

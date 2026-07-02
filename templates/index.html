@@ -1,0 +1,84 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Products
+{% endblock %}
+
+{% block page_title %}
+Products
+{% endblock %}
+
+{% block content %}
+
+<h2>Products List</h2>
+<form method="GET" action="/products">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search products..."
+        value="{{ search }}"
+    >
+
+    <button type="submit">
+        🔍 Search
+    </button>
+
+</form>
+
+<br>
+
+<table border="1" cellpadding="10">
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Category</th>
+
+<th>Buying</th>
+
+<th>Selling</th>
+
+<th>Stock</th>
+
+<th>Actions</th>
+
+</tr>
+
+{% for product in products %}
+
+<tr>
+
+<td>{{ product.id }}</td>
+
+<td>{{ product.product_name }}</td>
+
+<td>{{ product.category }}</td>
+
+<td>{{ product.buying_price }}</td>
+
+<td>{{ product.selling_price }}</td>
+
+<td>{{ product.stock }}</td>
+
+<td>
+
+    <a href="/edit_product/{{ product.id }}">Edit</a> |
+
+   <a href="/delete_product/{{ product.id }}"
+onclick="return confirm('Are you sure you want to delete this product?');">
+🗑 Delete
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Record Sale</title>
+</head>
+<body>
+
+<h1>Record Sale</h1>
+
+<form method="POST">
+
+    <label>Product</label><br>
+
+    <select name="product_id">
+
+        {% for product in products %}
+
+        <option value="{{ product.id }}">
+            {{ product.product_name }} - KSh {{ product.selling_price }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <br><br>
+
+    <label>Quantity</label><br>
+
+    <input
+        type="number"
+        name="quantity"
+        min="1"
+        required
+    >
+
+    <br><br>
+
+    <label>Payment Method</label><br>
+
+    <select name="payment_method">
+
+        <option>Cash</option>
+
+        <option>M-PESA</option>
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+
+        Complete Sale
+
+    </button>
+
+</form>
+
+</body>
+</html>

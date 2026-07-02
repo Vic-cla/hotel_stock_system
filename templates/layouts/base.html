@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Grand African Plate Hotel{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🏨</h2>
+
+    <h3 style="text-align:center;margin-bottom:25px;">
+        Grand African Plate Hotel
+    </h3>
+
+    <div style="text-align:center;margin-bottom:25px;">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+             width="80"
+             style="border-radius:50%;background:white;padding:10px;">
+
+        <h3 style="margin-top:10px;">
+            {{ session["fullname"] }}
+        </h3>
+
+        <p>{{ session["role"] }}</p>
+
+    </div>
+
+    <a href="/">
+        <i class="fa-solid fa-chart-line"></i>
+        Dashboard
+    </a>
+
+    <a href="/products">
+        <i class="fa-solid fa-box"></i>
+        Products
+    </a>
+
+    {% if session["role"] in ["Manager","Storekeeper"] %}
+
+    <a href="/add_product">
+        <i class="fa-solid fa-plus"></i>
+        Add Product
+    </a>
+
+    <a href="/receive_stock">
+        <i class="fa-solid fa-truck"></i>
+        Receive Stock
+    </a>
+
+    {% endif %}
+
+    {% if session["role"] in ["Manager","Cashier"] %}
+
+    <a href="/record_sale">
+        <i class="fa-solid fa-cash-register"></i>
+        Record Sale
+    </a>
+
+    {% endif %}
+
+    <a href="/sales_history">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Sales History
+    </a>
+
+    {% if session["role"] in ["Manager","Storekeeper"] %}
+
+    <a href="/daily_sales_report">
+        <i class="fa-solid fa-chart-column"></i>
+        Daily Report
+    </a>
+
+    <a href="/date_range_report">
+        <i class="fa-solid fa-calendar-days"></i>
+        Date Report
+    </a>
+
+    {% endif %}
+
+    {% if session["role"]=="Manager" %}
+
+    <a href="/settings">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+    </a>
+
+    {% endif %}
+
+    <hr style="margin:25px 0;">
+
+    <a href="/logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </a>
+
+</div>
+
+<div class="main-content">
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>{% block page_title %}{% endblock %}</h1>
+
+            <small>
+                Welcome back,
+                {{ session["fullname"] }}
+            </small>
+
+        </div>
+
+        <div style="text-align:right">
+
+            <h3>{{ session["role"] }}</h3>
+
+            <small id="clock"></small>
+
+        </div>
+
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<script>
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("clock").innerHTML =
+        now.toLocaleDateString() + " | " +
+        now.toLocaleTimeString();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+</script>
+
+</body>
+
+</html>

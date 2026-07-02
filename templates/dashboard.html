@@ -1,0 +1,66 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+The Grand African Plate Hotel
+{% endblock %}
+
+{% block page_title %}
+ The Grand African Plate Hotel
+{% endblock %}
+
+{% block content %}
+
+<h2 style="text-align:center; color:#2c3e50;">
+    Inventory & Sales Management System
+</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>📦 Total Products</h3>
+        <h1>{{ total_products }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>📊 Total Stock</h3>
+        <h1>{{ total_stock }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>⚠ Low Stock</h3>
+        <h1>{{ low_stock }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>💰 Today's Sales</h3>
+        <h1>KSh {{ today_sales }}</h1>
+    </div>
+
+</div>
+
+<br>
+
+<h2 style="color:#2c3e50;">
+    📈 Sales Analytics
+</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>🧾 Transactions Today</h3>
+        <h1>{{ total_transactions }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>🏆 Best Selling Product</h3>
+        <h1>{{ best_product }}</h1>
+    </div>
+
+    <div class="card">
+        <h3>💵 This Month</h3>
+        <h1>KSh {{ monthly_sales }}</h1>
+    </div>
+
+</div>
+
+{% endblock %}
