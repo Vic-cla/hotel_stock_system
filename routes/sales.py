@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, session
 from datetime import datetime
 from MySQLdb.cursors import DictCursor
 
@@ -51,7 +51,8 @@ def register_sales_routes(app, mysql):
             sale_time = now.strftime("%H:%M:%S")
 
             # Temporary bartender name
-            bartender = "Victor"
+            # Logged-in bartender
+            bartender = session["fullname"]
 
             # Insert into sales table
             cur.execute(
