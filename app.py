@@ -6,28 +6,51 @@ from routes.sales import register_sales_routes
 from datetime import datetime
 from routes.reports import register_report_routes
 from routes.stock import register_stock_routes
+
 app = Flask(__name__)
 app.secret_key = "victor_hotel_secret_2026"
 
 # ===========================
 # DATABASE CONFIGURATION
 # ===========================
-import os
 
+import os
+from flask import Flask, render_template, request, redirect, session
+from flask_mysqldb import MySQL
+
+app = Flask(__name__)
+
+# Secret key: set a strong SECRET_KEY environment variable
+app.secret_key = os.getenv("SECRET_KEY") or os.urandom(32)
+
+# Database configuration
 app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST", "localhost")
 app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT", 3306))
 app.config["MYSQL_USER"] = os.getenv("MYSQL_USER", "root")
 app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD", "")
 app.config["MYSQL_DB"] = os.getenv("MYSQL_DB", "hotel_stock_system")
 
+# Secure connection to TiDB using its CA certificate
+if app.config["MYSQL_HOST"] != "localhost":
+    app.config["MYSQL_CUSTOM_OPTIONS"] = {
+        "ssl": {
+            "ca": os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "tidb-ca.pem"
+            )
+        },
+        "ssl_mode": "VERIFY_IDENTITY"
+    }
 
 mysql = MySQL(app)
+
 
 register_product_routes(app, mysql)
 register_auth_routes(app, mysql)
 register_sales_routes(app, mysql)
 register_report_routes(app, mysql)
 register_stock_routes(app, mysql)
+
 
 
 @app.route("/")
