@@ -1,163 +1,229 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}Grand African Plate Hotel{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
 
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
-<div class="sidebar">
+    <aside class="sidebar">
 
-    <h2>🏨</h2>
+        <!-- HOTEL BRANDING -->
+        <div class="brand-area">
 
-    <h3 style="text-align:center;margin-bottom:25px;">
-        Grand African Plate Hotel
-    </h3>
+            <div class="brand-logo">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
 
-    <div style="text-align:center;margin-bottom:25px;">
+            <div class="brand-name">
+                <h2>GRAND AFRICAN</h2>
+                <span>PLATE HOTEL</span>
+            </div>
 
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-             width="80"
-             style="border-radius:50%;background:white;padding:10px;">
+            <div class="brand-divider"></div>
 
-        <h3 style="margin-top:10px;">
-            {{ session["fullname"] }}
-        </h3>
-
-        <p>{{ session["role"] }}</p>
-
-    </div>
-
-    <a href="/">
-        <i class="fa-solid fa-chart-line"></i>
-        Dashboard
-    </a>
-
-    <a href="/products">
-        <i class="fa-solid fa-box"></i>
-        Products
-    </a>
-
-    {% if session["role"] in ["Manager","Storekeeper"] %}
-
-    <a href="/add_product">
-        <i class="fa-solid fa-plus"></i>
-        Add Product
-    </a>
-
-    <a href="/receive_stock">
-        <i class="fa-solid fa-truck"></i>
-        Receive Stock
-    </a>
-
-    {% endif %}
-
-    {% if session["role"] in ["Manager","Cashier"] %}
-
-    <a href="/record_sale">
-        <i class="fa-solid fa-cash-register"></i>
-        Record Sale
-    </a>
-
-    {% endif %}
-
-    <a href="/sales_history">
-        <i class="fa-solid fa-clock-rotate-left"></i>
-        Sales History
-    </a>
-
-    {% if session["role"] in ["Manager","Storekeeper"] %}
-
-    <a href="/daily_sales_report">
-        <i class="fa-solid fa-chart-column"></i>
-        Daily Report
-    </a>
-
-    <a href="/date_range_report">
-        <i class="fa-solid fa-calendar-days"></i>
-        Date Report
-    </a>
-
-    {% endif %}
-
-    {% if session["role"]=="Manager" %}
-
-    <a href="/settings">
-        <i class="fa-solid fa-gear"></i>
-        Settings
-    </a>
-
-    {% endif %}
-
-    <hr style="margin:25px 0;">
-
-    <a href="/logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Logout
-    </a>
-
-</div>
-
-<div class="main-content">
-
-    <div class="topbar">
-
-        <div>
-
-            <h1>{% block page_title %}{% endblock %}</h1>
-
-            <small>
-                Welcome back,
-                {{ session["fullname"] }}
-            </small>
+            <p class="brand-caption">HOTEL MANAGEMENT SYSTEM</p>
 
         </div>
 
-        <div style="text-align:right">
+        <!-- USER PROFILE -->
+        <div class="sidebar-profile">
 
-            <h3>{{ session["role"] }}</h3>
+            <div class="profile-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
 
-            <small id="clock"></small>
+            <div class="profile-details">
+                <h3>{{ session.get("fullname", "User") }}</h3>
+                <p>{{ session.get("role", "Staff") }}</p>
+            </div>
+
+            <span class="online-indicator"></span>
 
         </div>
 
-    </div>
+        <!-- NAVIGATION -->
+        <nav class="sidebar-navigation">
 
-    {% block content %}
-    {% endblock %}
+            <span class="nav-heading">MAIN MENU</span>
 
-</div>
+            <a href="/"
+               class="nav-link {% if request.path == '/' %}active{% endif %}">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
 
-<script>
+            <a href="/products"
+               class="nav-link {% if request.path == '/products' %}active{% endif %}">
+                <i class="fa-solid fa-box"></i>
+                Products
+            </a>
 
-function updateClock(){
+            {% if session.get("role") in ["Manager", "Storekeeper"] %}
 
-    const now = new Date();
+            <span class="nav-heading">INVENTORY</span>
 
-    document.getElementById("clock").innerHTML =
-        now.toLocaleDateString() + " | " +
-        now.toLocaleTimeString();
+            <a href="/add_product"
+               class="nav-link {% if request.path == '/add_product' %}active{% endif %}">
+                <i class="fa-solid fa-plus"></i>
+                Add Product
+            </a>
 
-}
+            <a href="/receive_stock"
+               class="nav-link {% if request.path == '/receive_stock' %}active{% endif %}">
+                <i class="fa-solid fa-truck"></i>
+                Receive Stock
+            </a>
 
-setInterval(updateClock,1000);
+            {% endif %}
 
-updateClock();
+            {% if session.get("role") in ["Manager", "Cashier"] %}
 
-</script>
+            <span class="nav-heading">SALES</span>
+
+            <a href="/record_sale"
+               class="nav-link {% if request.path == '/record_sale' %}active{% endif %}">
+                <i class="fa-solid fa-cash-register"></i>
+                Record Sale
+            </a>
+
+            {% endif %}
+
+            <a href="/sales_history"
+               class="nav-link {% if request.path == '/sales_history' %}active{% endif %}">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Sales History
+            </a>
+
+            {% if session.get("role") in ["Manager", "Storekeeper"] %}
+
+            <span class="nav-heading">REPORTS</span>
+
+            <a href="/daily_sales_report"
+               class="nav-link {% if request.path == '/daily_sales_report' %}active{% endif %}">
+                <i class="fa-solid fa-chart-column"></i>
+                Daily Report
+            </a>
+
+            <a href="/date_range_report"
+               class="nav-link {% if request.path == '/date_range_report' %}active{% endif %}">
+                <i class="fa-solid fa-calendar-days"></i>
+                Date Report
+            </a>
+
+            {% endif %}
+
+            {% if session.get("role") == "Manager" %}
+
+            <span class="nav-heading">ADMINISTRATION</span>
+
+            <a href="/settings"
+               class="nav-link {% if request.path == '/settings' %}active{% endif %}">
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </a>
+
+            {% endif %}
+
+        </nav>
+
+        <!-- SIDEBAR FOOTER -->
+        <div class="sidebar-footer">
+
+            <p class="sidebar-footer-label">
+                <i class="fa-solid fa-shield-halved"></i>
+                SECURE STAFF PORTAL
+            </p>
+
+            <a href="/logout" class="logout-link">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+            <p>Grand African Plate Hotel</p>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <span class="topbar-eyebrow">
+                    GRAND AFRICAN PLATE HOTEL
+                </span>
+
+                <h1>{% block page_title %}{% endblock %}</h1>
+
+                <p class="welcome-message">
+                    Welcome back,
+                    <strong>{{ session.get("fullname", "User") }}</strong>
+                </p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="topbar-date">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="clock"></span>
+                </div>
+
+                <div class="topbar-user">
+
+                    <div class="topbar-user-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+                        <strong>{{ session.get("fullname", "User") }}</strong>
+                        <span>{{ session.get("role", "Staff") }}</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="page-content">
+            {% block content %}
+            {% endblock %}
+        </section>
+
+        <footer class="main-footer">
+            <span>GRAND AFRICAN PLATE HOTEL</span>
+            <span>Inventory & Management System</span>
+        </footer>
+
+    </main>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            document.getElementById("clock").textContent =
+                now.toLocaleDateString("en-KE") + " | " +
+                now.toLocaleTimeString("en-KE");
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
 
 </body>
-
 </html>

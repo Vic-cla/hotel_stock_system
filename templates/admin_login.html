@@ -1,63 +1,212 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Grand African Plate Hotel - Login</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Grand African Plate Hotel | Login</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
 
-        body{
-            background:#f5f5f5;
-            font-family:Arial, Helvetica, sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, sans-serif;
         }
 
-        .login-box{
-
-            width:380px;
-            margin:80px auto;
-            background:white;
-            padding:30px;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,.2);
-
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            background:
+                radial-gradient(circle at top left, #302719, transparent 40%),
+                radial-gradient(circle at bottom right, #29231A, transparent 40%),
+                #111318;
+            color: #F3F0E8;
         }
 
-        h2{
-
-            text-align:center;
-            color:#1b4332;
-
+        .login-container {
+            width: 100%;
+            max-width: 430px;
         }
 
-        input{
-
-            width:100%;
-            padding:10px;
-            margin-top:5px;
-            margin-bottom:15px;
-            border:1px solid #ccc;
-            border-radius:5px;
-            box-sizing:border-box;
-
+        .login-box {
+            background: linear-gradient(145deg, #242A34, #191D25);
+            border: 1px solid rgba(214,184,120,0.35);
+            border-top: 4px solid #D6B878;
+            border-radius: 18px;
+            padding: 42px 38px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.45);
         }
 
-        button{
-
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:5px;
-            background:#1b4332;
-            color:white;
-            font-size:16px;
-            cursor:pointer;
-
+        .brand {
+            text-align: center;
+            margin-bottom: 35px;
         }
 
-        button:hover{
+        .brand-logo {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #45371F, #201C15);
+            border: 1px solid #D6B878;
+            border-radius: 20px;
+            color: #F0D99F;
+            font-size: 30px;
+            box-shadow: 0 0 30px rgba(214,184,120,0.15);
+        }
 
-            background:#2d6a4f;
+        .brand h1 {
+            color: #F0D99F;
+            font-size: 20px;
+            letter-spacing: 2px;
+            margin-bottom: 7px;
+        }
 
+        .brand span {
+            color: #D6B878;
+            font-size: 11px;
+            letter-spacing: 4px;
+            font-weight: 600;
+        }
+
+        .brand-divider {
+            width: 65%;
+            height: 1px;
+            margin: 20px auto;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                #D6B878,
+                transparent
+            );
+        }
+
+        .login-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-heading h2 {
+            font-size: 22px;
+            color: #F3F0E8;
+            margin-bottom: 8px;
+        }
+
+        .login-heading p {
+            color: #A0A5AF;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            color: #D6B878;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #D6B878;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px 14px 43px;
+            background: #171A21;
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 9px;
+            color: #F3F0E8;
+            font-size: 14px;
+            outline: none;
+            transition: 0.25s ease;
+        }
+
+        input:focus {
+            border-color: #D6B878;
+            box-shadow: 0 0 0 3px rgba(214,184,120,0.12);
+        }
+
+        input::placeholder {
+            color: #777E89;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 8px;
+            background: linear-gradient(135deg, #D6B878, #F0D99F);
+            border: none;
+            border-radius: 9px;
+            color: #171717;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(214,184,120,0.22);
+        }
+
+        .login-button i {
+            margin-left: 8px;
+        }
+
+        .security-note {
+            text-align: center;
+            margin-top: 27px;
+            color: #858B96;
+            font-size: 11px;
+        }
+
+        .security-note i {
+            color: #D6B878;
+            margin-right: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            color: #777E89;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        @media(max-width: 480px) {
+            .login-box {
+                padding: 35px 24px;
+            }
+
+            .brand h1 {
+                font-size: 17px;
+            }
         }
 
     </style>
@@ -66,38 +215,97 @@
 
 <body>
 
-<div class="login-box">
+    <div class="login-container">
 
-    <h2>Grand African Plate Hotel</h2>
+        <div class="login-box">
 
-    <h3 style="text-align:center;">System Login</h3>
+            <!-- HOTEL BRANDING -->
+            <div class="brand">
 
-    <form method="POST">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
 
-        <label>Username</label>
+                <h1>GRAND AFRICAN</h1>
+                <span>PLATE HOTEL</span>
 
-        <input
-            type="text"
-            name="username"
-            required
-        >
+                <div class="brand-divider"></div>
 
-        <label>Password</label>
+            </div>
 
-        <input
-            type="password"
-            name="password"
-            required
-        >
+            <!-- LOGIN HEADING -->
+            <div class="login-heading">
 
-        <button type="submit">
-            Login
-        </button>
+                <h2>Welcome Back</h2>
 
-    </form>
+                <p>Sign in to access your management dashboard</p>
 
-</div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form method="POST">
+
+                <div class="form-group">
+
+                    <label for="username">Username</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">Password</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="login-button">
+                    Sign In
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+
+            <div class="security-note">
+                <i class="fa-solid fa-shield-halved"></i>
+                Secure Staff Access
+            </div>
+
+        </div>
+
+        <div class="footer">
+            GRAND AFRICAN PLATE HOTEL &copy; 2026
+        </div>
+
+    </div>
 
 </body>
-
 </html>
