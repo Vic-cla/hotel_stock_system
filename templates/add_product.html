@@ -1,41 +1,318 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title>Add Product</title>
-</head>
+{% extends "layouts/base.html" %}
 
-<body>
+{% block title %}
+Add New Product
+{% endblock %}
 
-    <h1>Add Product</h1>
+{% block page_title %}
+Add New Product
+{% endblock %}
 
-    <form method="POST">
+{% block content %}
 
-        <label>Product Name</label><br>
-        <input type="text" name="product_name"><br><br>
+<style>
+.add-product-page {
+    color: #F3F0E8;
+    max-width: 1050px;
+    margin: 0 auto;
+}
 
-        <label>Category</label><br>
-        <input type="text" name="category"><br><br>
+.add-product-header {
+    margin-bottom: 25px;
+}
 
-        <label>Buying Price</label><br>
-        <input type="number" name="buying_price"><br><br>
+.add-product-header h2 {
+    color: #F3F0E8;
+    font-size: 25px;
+    margin: 0 0 8px;
+}
 
-        <label>Selling Price</label><br>
-        <input type="number" name="selling_price"><br><br>
+.add-product-header p {
+    color: #A0A5AF;
+    font-size: 13px;
+    margin: 0;
+}
 
-        <label>Current Stock</label><br>
-        <input type="number" name="stock"><br><br>
+.add-product-card {
+    background: #1C2028;
+    border: 1px solid rgba(214, 184, 120, 0.16);
+    border-radius: 14px;
+    overflow: hidden;
+}
 
-        <label>Supplier</label><br>
-        <input type="text" name="supplier"><br><br>
+.add-product-card-header {
+    padding: 22px 25px;
+    border-bottom: 1px solid #303640;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
 
-        <label>Reorder Level</label><br>
-        <input type="number" name="reorder_level"><br><br>
+.add-product-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 10px;
+    background: rgba(214, 184, 120, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #D6B878;
+    font-size: 18px;
+}
 
-        <button type="submit">Save Product</button>
+.add-product-card-header h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    color: #F3F0E8;
+}
 
-    </form>
+.add-product-card-header p {
+    margin: 0;
+    color: #A0A5AF;
+    font-size: 12px;
+}
 
-</body>
+.add-product-form {
+    padding: 27px 25px;
+}
 
-</html>
+.add-product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 23px 25px;
+}
+
+.add-product-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.add-product-field label {
+    color: #D8D9DE;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.add-product-field label span {
+    color: #D6B878;
+    margin-right: 6px;
+}
+
+.add-product-field input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #111318;
+    border: 1px solid #343A45;
+    color: #F3F0E8;
+    border-radius: 8px;
+    padding: 13px 14px;
+    font-size: 13px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.add-product-field input:focus {
+    border-color: #D6B878;
+    box-shadow: 0 0 0 3px rgba(214, 184, 120, 0.08);
+}
+
+.add-product-field input::placeholder {
+    color: #777E8A;
+}
+
+.add-product-divider {
+    height: 1px;
+    background: #303640;
+    margin: 28px 0 22px;
+}
+
+.add-product-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.add-product-cancel {
+    text-decoration: none;
+    color: #A0A5AF;
+    border: 1px solid #414753;
+    border-radius: 8px;
+    padding: 12px 19px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.add-product-cancel:hover {
+    color: #F3F0E8;
+    border-color: #D6B878;
+}
+
+.add-product-submit {
+    background: linear-gradient(135deg, #F0D99F, #C6A65D);
+    color: #171717;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 21px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.add-product-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(214, 184, 120, 0.18);
+}
+
+.add-product-submit i {
+    margin-right: 7px;
+}
+
+@media (max-width: 650px) {
+    .add-product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .add-product-form {
+        padding: 20px;
+    }
+
+    .add-product-card-header {
+        padding: 19px;
+    }
+
+    .add-product-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .add-product-actions a,
+    .add-product-actions button {
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+</style>
+
+<div class="add-product-page">
+
+    <div class="add-product-header">
+        <h2>Add New Product</h2>
+        <p>Add a product to your hotel's inventory and configure its stock details.</p>
+    </div>
+
+    <div class="add-product-card">
+
+        <div class="add-product-card-header">
+
+            <div class="add-product-icon">
+                <i class="fas fa-box-open"></i>
+            </div>
+
+            <div>
+                <h3>Product Information</h3>
+                <p>Enter the details of the new inventory item below.</p>
+            </div>
+
+        </div>
+
+        <form method="POST" class="add-product-form">
+
+            <div class="add-product-grid">
+
+                <div class="add-product-field">
+                    <label><span>01.</span> Product Name</label>
+                    <input
+                        type="text"
+                        name="product_name"
+                        placeholder="Enter product name"
+                    >
+                </div>
+
+                <div class="add-product-field">
+                    <label><span>02.</span> Category</label>
+                    <input
+                        type="text"
+                        name="category"
+                        placeholder="e.g. Beverages, Food, Supplies"
+                    >
+                </div>
+
+                <div class="add-product-field">
+                    <label><span>03.</span> Buying Price (KSh)</label>
+                    <input
+                        type="number"
+                        name="buying_price"
+                        step="0.01"
+                        placeholder="Enter buying price"
+                    >
+                </div>
+
+                <div class="add-product-field">
+                    <label><span>04.</span> Selling Price (KSh)</label>
+                    <input
+                        type="number"
+                        name="selling_price"
+                        step="0.01"
+                        placeholder="Enter selling price"
+                    >
+                </div>
+
+                <div class="add-product-field">
+                    <label><span>05.</span> Current Stock</label>
+                    <input
+                        type="number"
+                        name="stock"
+                        placeholder="Enter available quantity"
+                    >
+                </div>
+
+                <div class="add-product-field">
+                    <label><span>06.</span> Supplier</label>
+                    <input
+                        type="text"
+                        name="supplier"
+                        placeholder="Enter supplier name"
+                    >
+                </div>
+
+                <div class="add-product-field">
+                    <label><span>07.</span> Reorder Level</label>
+                    <input
+                        type="number"
+                        name="reorder_level"
+                        placeholder="Enter minimum stock level"
+                    >
+                </div>
+
+            </div>
+
+            <div class="add-product-divider"></div>
+
+            <div class="add-product-actions">
+
+                <a href="/products" class="add-product-cancel">
+                    Cancel
+                </a>
+
+                <button type="submit" class="add-product-submit">
+                    <i class="fas fa-save"></i>
+                    Save Product
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

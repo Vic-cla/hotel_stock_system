@@ -1,60 +1,428 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Record Sale</title>
-</head>
-<body>
 
-<h1>Record Sale</h1>
+{% extends "layouts/base.html" %}
 
-<form method="POST">
+{% block title %}Record Sale{% endblock %}
 
-    <label>Product</label><br>
+{% block page_title %}Point of Sale{% endblock %}
 
-    <select name="product_id">
+{% block content %}
 
-        {% for product in products %}
+<style>
+    .pos-panel {
+        background: #1C2028;
+        border: 1px solid #343A46;
+        border-radius: 12px;
+        padding: 22px;
+        margin-bottom: 20px;
+    }
 
-        <option value="{{ product.id }}">
-            {{ product.product_name }} - KSh {{ product.selling_price }}
-        </option>
+    .pos-panel h2 {
+        color: #D6B878;
+        margin-top: 0;
+    }
 
-        {% endfor %}
+    .pos-field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        margin-bottom: 16px;
+    }
 
-    </select>
+    .pos-field label {
+        color: #F3F0E8;
+        font-weight: 600;
+    }
 
-    <br><br>
+    .pos-field input,
+    .pos-field select,
+    .product-row select,
+    .product-row input {
+        background: #111318;
+        color: #F3F0E8;
+        border: 1px solid #454B57;
+        border-radius: 7px;
+        padding: 11px;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
-    <label>Quantity</label><br>
+    .product-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr auto;
+        gap: 12px;
+        align-items: end;
+        margin-bottom: 12px;
+    }
 
-    <input
-        type="number"
-        name="quantity"
-        min="1"
-        required
-    >
+    .product-row label {
+        display: block;
+        color: #F3F0E8;
+        margin-bottom: 7px;
+    }
 
-    <br><br>
+    .pos-button {
+        background: #D6B878;
+        color: #111318;
+        border: none;
+        border-radius: 7px;
+        padding: 11px 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-    <label>Payment Method</label><br>
+    .remove-button {
+        background: #8B3434;
+        color: white;
+        border: none;
+        border-radius: 7px;
+        padding: 11px;
+        cursor: pointer;
+    }
 
-    <select name="payment_method">
+    .pos-summary {
+        color: #F3F0E8;
+        font-size: 17px;
+        line-height: 2;
+    }
 
-        <option>Cash</option>
+    .pos-total {
+        color: #F0D99F;
+        font-size: 25px;
+        font-weight: bold;
+    }
 
-        <option>M-PESA</option>
+    .pos-error {
+        background: #492727;
+        color: #FFDADA;
+        border: 1px solid #9B4B4B;
+        padding: 13px;
+        border-radius: 8px;
+        margin-bottom: 18px;
+    }
 
-    </select>
+    .manager-box {
+        border: 1px solid #A98542;
+        padding: 16px;
+        border-radius: 8px;
+        margin-top: 15px;
+        display: none;
+    }
 
-    <br><br>
+    @media(max-width: 650px) {
+        .product-row {
+            grid-template-columns: 1fr 1fr;
+        }
 
-    <button type="submit">
+        .product-row .product-select {
+            grid-column: 1 / -1;
+        }
+    }
+</style>
 
+{% if error %}
+<div class="pos-error">
+    {{ error }}
+</div>
+{% endif %}
+
+<form method="POST" id="posForm">
+
+    <div class="pos-panel">
+
+        <h2>Products</h2>
+
+        {% if products %}
+
+        <div id="cartRows">
+
+            <div class="product-row">
+
+                <div class="product-select">
+                    <label>Product</label>
+
+                    <select name="product_id[]" class="product-choice" required>
+                        <option value="">Select a product</option>
+
+                        {% for product in products %}
+                        <option
+                            value="{{ product.id }}"
+                            data-price="{{ product.selling_price }}"
+                        >
+                            {{ product.product_name }}
+                            — KSh {{ product.selling_price }}
+                            (Stock: {{ product.stock }})
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div>
+                    <label>Quantity</label>
+                    <input
+                        type="number"
+                        name="quantity[]"
+                        class="quantity-input"
+                        min="1"
+                        value="1"
+                        required
+                    >
+                </div>
+
+                <button
+                    type="button"
+                    class="remove-button"
+                    onclick="removeRow(this)"
+                >
+                    Remove
+                </button>
+
+            </div>
+
+        </div>
+
+        <button type="button" class="pos-button" onclick="addRow()">
+            + Add Another Product
+        </button>
+
+        {% else %}
+
+        <p>No active products with available stock.</p>
+
+        {% endif %}
+
+    </div>
+
+    <div class="pos-panel">
+
+        <h2>Order Details</h2>
+
+        <div class="pos-field">
+            <label>Order Type</label>
+
+            <select name="order_type" id="orderType" required>
+                <option value="Dine-in">Dine-in</option>
+                <option value="Takeaway">Takeaway</option>
+            </select>
+        </div>
+
+        <div class="pos-field" id="tableField">
+            <label>Table Number</label>
+            <input
+                type="text"
+                name="table_number"
+                id="tableNumber"
+                placeholder="e.g. Table 4"
+            >
+        </div>
+
+        <div class="pos-field" id="referenceField" style="display:none;">
+            <label>Takeaway Order Reference</label>
+            <input
+                type="text"
+                name="order_reference"
+                id="orderReference"
+                placeholder="e.g. TAKEAWAY-001"
+            >
+        </div>
+
+        <div class="pos-field">
+            <label>Payment Method</label>
+
+            <select name="payment_method" required>
+                <option value="Cash">Cash</option>
+                <option value="M-PESA">M-PESA</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="pos-panel">
+
+        <h2>Discount</h2>
+
+        <div class="pos-field">
+            <label>Discount Percentage (%)</label>
+
+            <input
+                type="number"
+                name="discount_percentage"
+                id="discountPercentage"
+                min="0"
+                max="100"
+                step="0.01"
+                value="0"
+            >
+        </div>
+
+        <div class="manager-box" id="managerBox">
+
+            <h3 style="color:#F0D99F;">Manager Approval Required</h3>
+
+            <p style="color:#A0A5AF;">
+                A manager must enter their own login credentials to approve
+                this discount.
+            </p>
+
+            <div class="pos-field">
+                <label>Manager Username</label>
+                <input
+                    type="text"
+                    name="manager_username"
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="pos-field">
+                <label>Manager Password</label>
+                <input
+                    type="password"
+                    name="manager_password"
+                    autocomplete="new-password"
+                >
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="pos-panel">
+
+        <h2>Bill Summary</h2>
+
+        <div class="pos-summary">
+            Subtotal: KSh <span id="subtotalDisplay">0.00</span><br>
+            Discount: KSh <span id="discountDisplay">0.00</span><br>
+            <div class="pos-total">
+                Total: KSh <span id="totalDisplay">0.00</span>
+            </div>
+        </div>
+
+    </div>
+
+    {% if products %}
+    <button type="submit" class="pos-button">
         Complete Sale
-
     </button>
+    {% endif %}
 
 </form>
 
-</body>
-</html>
+<script>
+    const cartRows = document.getElementById("cartRows");
+    const discountInput = document.getElementById("discountPercentage");
+    const managerBox = document.getElementById("managerBox");
+
+    function addRow() {
+        const firstRow = cartRows.querySelector(".product-row");
+        const newRow = firstRow.cloneNode(true);
+
+        newRow.querySelector("select").selectedIndex = 0;
+        newRow.querySelector("input").value = 1;
+
+        cartRows.appendChild(newRow);
+        calculateTotal();
+    }
+
+    function removeRow(button) {
+        const rows = cartRows.querySelectorAll(".product-row");
+
+        if (rows.length === 1) {
+            alert("At least one product row is required.");
+            return;
+        }
+
+        button.closest(".product-row").remove();
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        let subtotal = 0;
+
+        document.querySelectorAll(".product-row").forEach(row => {
+            const select = row.querySelector("select");
+            const quantityInput = row.querySelector("input");
+
+            const selectedOption = select.options[select.selectedIndex];
+            const price = Number(selectedOption.dataset.price || 0);
+            const quantity = Number(quantityInput.value || 0);
+
+            if (quantity > 0) {
+                subtotal += price * quantity;
+            }
+        });
+
+        const percentage = Math.min(
+            100,
+            Math.max(0, Number(discountInput.value || 0))
+        );
+
+        const discount = subtotal * percentage / 100;
+        const total = subtotal - discount;
+
+        document.getElementById("subtotalDisplay").textContent =
+            subtotal.toFixed(2);
+
+        document.getElementById("discountDisplay").textContent =
+            discount.toFixed(2);
+
+        document.getElementById("totalDisplay").textContent =
+            total.toFixed(2);
+
+        managerBox.style.display = percentage > 0 ? "block" : "none";
+    }
+
+    document.addEventListener("change", function(event) {
+        if (
+            event.target.classList.contains("product-choice") ||
+            event.target.classList.contains("quantity-input") ||
+            event.target.id === "discountPercentage"
+        ) {
+            calculateTotal();
+        }
+    });
+
+    document.addEventListener("input", function(event) {
+        if (
+            event.target.classList.contains("quantity-input") ||
+            event.target.id === "discountPercentage"
+        ) {
+            calculateTotal();
+        }
+    });
+
+    document.getElementById("orderType").addEventListener("change", function() {
+        const dineIn = this.value === "Dine-in";
+
+        document.getElementById("tableField").style.display =
+            dineIn ? "flex" : "none";
+
+        document.getElementById("referenceField").style.display =
+            dineIn ? "none" : "flex";
+
+        document.getElementById("tableNumber").required = dineIn;
+        document.getElementById("orderReference").required = !dineIn;
+    });
+
+    document.getElementById("posForm").addEventListener("submit", function(event) {
+        const rows = document.querySelectorAll(".product-row");
+
+        for (const row of rows) {
+            if (!row.querySelector("select").value) {
+                event.preventDefault();
+                alert("Please select a product in every product row.");
+                return;
+            }
+
+            if (Number(row.querySelector("input").value) < 1) {
+                event.preventDefault();
+                alert("Every product quantity must be at least 1.");
+                return;
+            }
+        }
+    });
+
+    calculateTotal();
+</script>
+
+{% endblock %}

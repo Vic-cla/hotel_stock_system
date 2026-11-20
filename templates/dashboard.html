@@ -1,66 +1,121 @@
+
 {% extends "layouts/base.html" %}
 
 {% block title %}
-The Grand African Plate Hotel
+Grand African Plate | Dashboard
 {% endblock %}
 
 {% block page_title %}
- The Grand African Plate Hotel
+Dashboard Overview
 {% endblock %}
 
 {% block content %}
 
-<h2 style="text-align:center; color:#2c3e50;">
-    Inventory & Sales Management System
-</h2>
-
-<div class="cards">
-
-    <div class="card">
-        <h3>📦 Total Products</h3>
-        <h1>{{ total_products }}</h1>
+<div class="dashboard-welcome">
+    <div>
+        <span class="welcome-label">HOTEL MANAGEMENT SYSTEM</span>
+        <h2>Welcome to Grand African Plate</h2>
+        <p>Your inventory and sales overview at a glance.</p>
     </div>
 
-    <div class="card">
-        <h3>📊 Total Stock</h3>
-        <h1>{{ total_stock }}</h1>
+    <div class="welcome-decoration">
+        <i class="fa-solid fa-hotel"></i>
     </div>
-
-    <div class="card">
-        <h3>⚠ Low Stock</h3>
-        <h1>{{ low_stock }}</h1>
-    </div>
-
-    <div class="card">
-        <h3>💰 Today's Sales</h3>
-        <h1>KSh {{ today_sales }}</h1>
-    </div>
-
 </div>
 
-<br>
+<section class="dashboard-section">
 
-<h2 style="color:#2c3e50;">
-    📈 Sales Analytics
-</h2>
-
-<div class="cards">
-
-    <div class="card">
-        <h3>🧾 Transactions Today</h3>
-        <h1>{{ total_transactions }}</h1>
+    <div class="section-heading">
+        <div>
+            <span class="section-eyebrow">INVENTORY OVERVIEW</span>
+            <h2>Stock at a Glance</h2>
+        </div>
+        <i class="fa-solid fa-boxes-stacked section-icon"></i>
     </div>
 
-    <div class="card">
-        <h3>🏆 Best Selling Product</h3>
-        <h1>{{ best_product }}</h1>
+    <div class="cards">
+
+        <div class="card stat-card">
+            <div class="stat-top">
+                <span>Total Products</span>
+                <i class="fa-solid fa-box"></i>
+            </div>
+            <h1>{{ total_products }}</h1>
+            <p>Registered products</p>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-top">
+                <span>Total Stock</span>
+                <i class="fa-solid fa-cubes-stacked"></i>
+            </div>
+            <h1>{{ total_stock }}</h1>
+            <p>Units currently in stock</p>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-top">
+                <span>Low Stock</span>
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h1>{{ low_stock }}</h1>
+            <p>Products requiring attention</p>
+        </div>
+
+        <div class="card stat-card highlight-card">
+            <div class="stat-top">
+                <span>Today's Sales</span>
+                <i class="fa-solid fa-sack-dollar"></i>
+            </div>
+            <h1>KSh {{ today_sales }}</h1>
+            <p>Sales recorded today</p>
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>💵 This Month</h3>
-        <h1>KSh {{ monthly_sales }}</h1>
+</section>
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-eyebrow">BUSINESS PERFORMANCE</span>
+            <h2>Sales Analytics</h2>
+        </div>
+        <i class="fa-solid fa-chart-line section-icon"></i>
     </div>
 
-</div>
+    <div class="cards">
+
+        <div class="card stat-card">
+            <div class="stat-top">
+                <span>Transactions Today</span>
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <h1>{{ total_transactions }}</h1>
+            <p>Completed transactions</p>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-top">
+                <span>Best Selling Product</span>
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <h1 class="product-highlight">{{ best_product }}</h1>
+            <p>Top performing product</p>
+        </div>
+
+        <div class="card stat-card highlight-card">
+            <div class="stat-top">
+                <span>This Month</span>
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <h1>KSh {{ monthly_sales }}</h1>
+            <p>Monthly sales revenue</p>
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

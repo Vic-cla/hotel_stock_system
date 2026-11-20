@@ -1,0 +1,168 @@
+
+{% extends "layouts/base.html" %}
+
+{% block title %}Receipt #{{ sale.id }}{% endblock %}
+
+{% block page_title %}Sale Receipt{% endblock %}
+
+{% block content %}
+
+<style>
+    .receipt {
+        max-width: 650px;
+        margin: 20px auto;
+        padding: 28px;
+        background: #F3F0E8;
+        color: #222;
+        border-radius: 10px;
+    }
+
+    .receipt h2,
+    .receipt h3 {
+        text-align: center;
+    }
+
+    .receipt table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    .receipt th,
+    .receipt td {
+        padding: 10px 5px;
+        border-bottom: 1px solid #ccc;
+        text-align: left;
+    }
+
+    .receipt .amount {
+        text-align: right;
+    }
+
+    .receipt-total {
+        font-size: 22px;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 15px;
+    }
+
+    .receipt-actions {
+        text-align: center;
+        margin: 20px;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .receipt,
+        .receipt * {
+            visibility: visible;
+        }
+
+        .receipt {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            box-shadow: none;
+        }
+
+        .receipt-actions {
+            display: none;
+        }
+    }
+</style>
+
+<div class="receipt">
+
+    <h2>THE GRAND AFRICAN PLATE HOTEL</h2>
+    <h3>SALES RECEIPT</h3>
+
+    <hr>
+
+    <p><strong>Receipt No:</strong> {{ sale.id }}</p>
+    <p><strong>Date:</strong> {{ sale.sales_date }}</p>
+    <p><strong>Time:</strong> {{ sale.sales_time }}</p>
+    <p><strong>Cashier:</strong> {{ sale.bartender }}</p>
+    <p><strong>Order Type:</strong> {{ sale.order_type }}</p>
+
+    {% if sale.order_type == "Dine-in" %}
+        <p><strong>Table:</strong> {{ sale.table_number }}</p>
+    {% else %}
+        <p><strong>Order Reference:</strong> {{ sale.order_reference }}</p>
+    {% endif %}
+
+    <p><strong>Payment:</strong> {{ sale.payment_method }}</p>
+
+    <hr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th class="amount">Price</th>
+                <th class="amount">Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td class="amount">
+                    {{ "%.2f"|format(item.unit_price) }}
+                </td>
+                <td class="amount">
+                    {{ "%.2f"|format(item.line_total) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+
+    <p class="amount">
+        Subtotal: KSh {{ "%.2f"|format(sale.subtotal or 0) }}
+    </p>
+
+    <p class="amount">
+        Discount ({{ "%.2f"|format(sale.discount_percentage or 0) }}%):
+        KSh {{ "%.2f"|format(sale.discount_amount or 0) }}
+    </p>
+
+    <div class="receipt-total">
+        TOTAL: KSh {{ "%.2f"|format(sale.total_amount) }}
+    </div>
+
+    {% if sale.approved_by %}
+        <hr>
+        <p>
+            <strong>Discount approved by:</strong>
+            {{ sale.manager_name or "Manager" }}
+        </p>
+    {% endif %}
+
+    <hr>
+
+    <h3>Thank you for dining with us!</h3>
+
+</div>
+
+<div class="receipt-actions">
+    <button onclick="window.print()" class="pos-button">
+        Print Receipt
+    </button>
+
+    <a href="/record_sale" style="margin-left:15px; color:#D6B878;">
+        Record Another Sale
+    </a>
+</div>
+
+{% endblock %}
